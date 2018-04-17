@@ -1,25 +1,27 @@
 package it.heber.sandbox.springbootdemo.controller;
 
-import it.heber.sandbox.springbootdemo.dao.CustomerDao;
 import it.heber.sandbox.springbootdemo.model.Customer;
+import it.heber.sandbox.springbootdemo.service.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
-
 @RestController
+@RequestMapping("/api/customers")
 public class CustomerController {
 
-    @Autowired
-    CustomerDao customerDAO;
+    private final CustomerRepository customers;
 
-    @GetMapping(value = "/customer", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public ResponseEntity<Collection<Customer>> getCustomers() {
-        return new ResponseEntity<>(customerDAO.findAll(), HttpStatus.OK);
+    @Autowired
+    public CustomerController(CustomerRepository customers)  {
+        this.customers = customers;
     }
 
+    @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Page<Customer> getCustomers(Pageable pageable) {
+        return customers.findAll(pageable);
+    }
 }
