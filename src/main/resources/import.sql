@@ -229,7 +229,7 @@ insert into company(id, name) values(nextval('company_sequence'), 'ConAgra Foods
 insert into company(id, name) values(nextval('company_sequence'), 'Dean Foods Company');
 insert into company(id, name) values(nextval('company_sequence'), 'Del Monte Foods Co');
 insert into company(id, name) values(nextval('company_sequence'), 'Deluxe Corporation');
-insert into company(id, name) values(nextval('company_sequence'), 'Domino's Pizza LLC');
+insert into company(id, name) values(nextval('company_sequence'), 'Domingos Pizza LLC');
 insert into company(id, name) values(nextval('company_sequence'), 'Exelon Corporation');
 insert into company(id, name) values(nextval('company_sequence'), 'Exide Technologies');
 insert into company(id, name) values(nextval('company_sequence'), 'Flowers Foods Inc.');
