@@ -1,9 +1,9 @@
 package it.heber.sandbox.springbootdemo.web.controller;
 
-import it.heber.sandbox.springbootdemo.persistence.model.Company;
-import it.heber.sandbox.springbootdemo.persistence.dao.CompanySpecificationsBuilder;
-import it.heber.sandbox.springbootdemo.web.util.SearchOperation;
 import it.heber.sandbox.springbootdemo.persistence.dao.CompanyRepository;
+import it.heber.sandbox.springbootdemo.persistence.dao.CompanySpecificationsBuilder;
+import it.heber.sandbox.springbootdemo.persistence.model.Company;
+import it.heber.sandbox.springbootdemo.web.util.SearchOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,6 +15,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * REST controller to provide an API for companies access
+ *
+ * @author Uwe Heber <uwe@heber.it>
+ * @since 1.0
+ */
 @RestController
 @RequestMapping("/api/companies")
 public class CompanyController {
@@ -25,7 +31,6 @@ public class CompanyController {
     public CompanyController(CompanyRepository companies) {
         this.companies = companies;
     }
-
 
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

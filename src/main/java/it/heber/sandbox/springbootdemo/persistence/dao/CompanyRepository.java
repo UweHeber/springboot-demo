@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.rest.core.annotation.RestResource;
 
 /**
- * Interface to use JPA repository programming model for company entities.
- * It includes all functions to interact with ths repository
+ * Interface to allow execution of Specifications based on the
+ * JPA criteria API against JPA repository with company entities.
  *
  * @author Uwe Heber <uwe@heber.it>
  * @since 1.0
@@ -17,9 +17,11 @@ import org.springframework.data.rest.core.annotation.RestResource;
 public interface CompanyRepository extends JpaRepository<Company, Integer>, JpaSpecificationExecutor<Company> {
 
     /**
-     * find all companies 
-     * @param pageable
-     * @return
+     * fetch all companies, based on the pagination info
+     *
+     * @param pageable pagination info, contains the part of
+     *                 the total result set that is to be returned
+     * @return all companies, which match the pagination info
      */
     @RestResource
     Page<Company> findAll(Pageable pageable);
