@@ -1,6 +1,6 @@
-package it.heber.sandbox.springbootdemo.service;
+package it.heber.sandbox.springbootdemo.persistence.dao;
 
-import it.heber.sandbox.springbootdemo.model.Customer;
+import it.heber.sandbox.springbootdemo.persistence.model.Customer;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

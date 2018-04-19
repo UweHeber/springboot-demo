@@ -1,15 +1,17 @@
-package it.heber.sandbox.springbootdemo.controller;
+package it.heber.sandbox.springbootdemo.web.controller;
 
-import it.heber.sandbox.springbootdemo.model.Company;
-import it.heber.sandbox.springbootdemo.model.CompanySpecificationsBuilder;
-import it.heber.sandbox.springbootdemo.model.SearchOperation;
-import it.heber.sandbox.springbootdemo.service.CompanyRepository;
+import it.heber.sandbox.springbootdemo.persistence.model.Company;
+import it.heber.sandbox.springbootdemo.persistence.dao.CompanySpecificationsBuilder;
+import it.heber.sandbox.springbootdemo.web.util.SearchOperation;
+import it.heber.sandbox.springbootdemo.persistence.dao.CompanyRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -25,20 +27,18 @@ public class CompanyController {
     }
 
 
-//    @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-//    @ResponseBody
-//    public Page<Company> getCompanies(Pageable pageable) {
-//        return companies.findAll(pageable);
-//    }
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<Company> search(@RequestParam(value = "search") String search) {
+    public Page<Company> search(@RequestParam(value = "search", required = false) String search, Pageable pageable) {
+
+        if (search == null) {
+            return companies.findAll(pageable);
+        }
         CompanySpecificationsBuilder builder = new CompanySpecificationsBuilder();
         String operationSetExper = StringUtils.join(SearchOperation.SIMPLE_OPERATION_SET, "|");
-        //String operationSetExper = Joiner.on("|").join(SearchOperation.SIMPLE_OPERATION_SET);
         Pattern pattern = Pattern.compile(
-                "(\\w+?)(" + operationSetExper + ")(\\p{Punct}?)(\\w+?)(\\p{Punct}?),");
+                "(\\w+?)(" + operationSetExper + ")(\\p{Punct}?)([\\w\\s]+)(\\p{Punct}?),");
         Matcher matcher = pattern.matcher(search + ",");
         while (matcher.find()) {
             builder.with(
@@ -50,6 +50,6 @@ public class CompanyController {
         }
 
         Specification<Company> spec = builder.build();
-        return companies.findAll(spec);
+        return companies.findAll(spec, pageable);
     }
 }

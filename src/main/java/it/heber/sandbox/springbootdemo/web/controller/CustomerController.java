@@ -1,7 +1,7 @@
-package it.heber.sandbox.springbootdemo.controller;
+package it.heber.sandbox.springbootdemo.web.controller;
 
-import it.heber.sandbox.springbootdemo.model.Customer;
-import it.heber.sandbox.springbootdemo.service.CustomerRepository;
+import it.heber.sandbox.springbootdemo.persistence.model.Customer;
+import it.heber.sandbox.springbootdemo.persistence.dao.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

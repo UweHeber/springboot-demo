@@ -1,5 +1,7 @@
-package it.heber.sandbox.springbootdemo.model;
+package it.heber.sandbox.springbootdemo.persistence.dao;
 
+import it.heber.sandbox.springbootdemo.persistence.model.Company;
+import it.heber.sandbox.springbootdemo.web.util.SearchCriteria;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -27,24 +29,26 @@ public class CompanySpecification implements Specification<Company> {
 
         switch (criteria.getOperation()) {
             case EQUALITY:
-                return builder.equal(root.get(criteria.getKey()), criteria.getValue());
+                return builder.equal(root.get(
+                        criteria.getKey()), criteria.getValue());
             case NEGATION:
-                return builder.notEqual(root.get(criteria.getKey()), criteria.getValue());
+                return builder.notEqual(root.get(
+                        criteria.getKey()), criteria.getValue());
             case GREATER_THAN:
-                return builder.greaterThan(root.<String> get(
+                return builder.greaterThan(root.get(
                         criteria.getKey()), criteria.getValue().toString());
             case LESS_THAN:
-                return builder.lessThan(root.<String> get(
+                return builder.lessThan(root.get(
                         criteria.getKey()), criteria.getValue().toString());
             case LIKE:
-                return builder.like(root.<String> get(
+                return builder.like(root.get(
                         criteria.getKey()), criteria.getValue().toString());
             case STARTS_WITH:
-                return builder.like(root.<String> get(criteria.getKey()), criteria.getValue() + "%");
+                return builder.like(root.get(criteria.getKey()), criteria.getValue() + "%");
             case ENDS_WITH:
-                return builder.like(root.<String> get(criteria.getKey()), "%" + criteria.getValue());
+                return builder.like(root.get(criteria.getKey()), "%" + criteria.getValue());
             case CONTAINS:
-                return builder.like(root.<String> get(
+                return builder.like(root.get(
                         criteria.getKey()), "%" + criteria.getValue() + "%");
             default:
                 return null;

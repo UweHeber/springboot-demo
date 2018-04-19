@@ -1,12 +1,11 @@
-package it.heber.sandbox.springbootdemo.model;
+package it.heber.sandbox.springbootdemo.persistence.model;
 
 import lombok.Data;
 
 import javax.persistence.*;
 
 /**
- * Simple POJO as value object, using Lombok to
- * reduce Getter/Setter/toString/equals/...
+ * JPA entity, using Lombok to reduce Getter/Setter/toString/equals/...
  *
  * @author Uwe Heber <uwe@heber.it>
  * @since 1.0

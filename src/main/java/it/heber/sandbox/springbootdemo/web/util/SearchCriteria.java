@@ -1,5 +1,6 @@
-package it.heber.sandbox.springbootdemo.model;
+package it.heber.sandbox.springbootdemo.web.util;
 
+import it.heber.sandbox.springbootdemo.web.util.SearchOperation;
 import lombok.Data;
 
 /**

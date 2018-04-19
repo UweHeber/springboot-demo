@@ -1,18 +1,30 @@
-package it.heber.sandbox.springbootdemo.model;
+package it.heber.sandbox.springbootdemo.persistence.dao;
 
+import it.heber.sandbox.springbootdemo.persistence.model.Company;
+import it.heber.sandbox.springbootdemo.web.util.SearchCriteria;
+import it.heber.sandbox.springbootdemo.web.util.SearchOperation;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Builder to incorporate with new search operations for company entities via JPA query
+ *
+ * @author Uwe Heber <uwe@heber.it>
+ * @since 1.0
+ */
 public class CompanySpecificationsBuilder {
-    private List<SearchCriteria> params = new ArrayList<>();
+    private List<SearchCriteria> params;
 
     public CompanySpecificationsBuilder with(
             String key, String operation, Object value, String prefix, String suffix) {
 
         SearchOperation op = SearchOperation.getSimpleOperation(operation.charAt(0));
         if (op != null) {
+
+            this.params = new ArrayList<>();
+
             if (op == SearchOperation.EQUALITY) {
                 boolean startWithAsterisk = prefix.contains("*");
                 boolean endWithAsterisk = suffix.contains("*");
