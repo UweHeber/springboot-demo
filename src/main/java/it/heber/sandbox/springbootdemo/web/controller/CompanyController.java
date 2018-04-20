@@ -6,17 +6,21 @@ import it.heber.sandbox.springbootdemo.persistence.model.Company;
 import it.heber.sandbox.springbootdemo.web.util.SearchOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedResources;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * REST controller to provide an API for companies access
+ * REST controller to provide an API for companies access including Hypermedia support for Pageables
  *
  * @author Uwe Heber <uwe@heber.it>
  * @since 1.0
@@ -35,10 +39,10 @@ public class CompanyController {
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Page<Company> search(@RequestParam(value = "search", required = false) String search, Pageable pageable) {
+    public HttpEntity<PagedResources<Company>> search(@RequestParam(value = "search", required = false) String search, Pageable pageable, PagedResourcesAssembler assembler) {
 
         if (search == null) {
-            return companies.findAll(pageable);
+            return new ResponseEntity<>(assembler.toResource(companies.findAll(pageable)), HttpStatus.OK);
         }
         CompanySpecificationsBuilder builder = new CompanySpecificationsBuilder();
         String operationSetExper = StringUtils.join(SearchOperation.SIMPLE_OPERATION_SET, "|");
@@ -55,6 +59,6 @@ public class CompanyController {
         }
 
         Specification<Company> spec = builder.build();
-        return companies.findAll(spec, pageable);
+        return new ResponseEntity<>(assembler.toResource(companies.findAll(spec, pageable)), HttpStatus.OK);
     }
 }
