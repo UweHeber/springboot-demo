@@ -25,6 +25,9 @@ public class Customer {
     @Column(name = "lastName")
     private String lastName;
 
+    @Column(name = "age")
+    private Integer age;
+
     @Column(name = "company")
     private String company;
 }

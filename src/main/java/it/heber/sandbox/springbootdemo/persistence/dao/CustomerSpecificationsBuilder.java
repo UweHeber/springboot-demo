@@ -1,6 +1,6 @@
 package it.heber.sandbox.springbootdemo.persistence.dao;
 
-import it.heber.sandbox.springbootdemo.persistence.model.Company;
+import it.heber.sandbox.springbootdemo.persistence.model.Customer;
 import it.heber.sandbox.springbootdemo.web.util.SearchCriteria;
 import it.heber.sandbox.springbootdemo.web.util.SearchOperation;
 import org.springframework.data.jpa.domain.Specification;
@@ -9,22 +9,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Builder to incorporate with new search operations for company entities via JPA query
+ * Builder to incorporate with new search operations for customer entities via JPA query
  *
  * @author Uwe Heber <uwe@heber.it>
  * @since 1.0
  */
-public class CompanySpecificationsBuilder {
+public class CustomerSpecificationsBuilder {
 
     private List<SearchCriteria> params = new ArrayList<>();
 
-    public CompanySpecificationsBuilder with(
+    public CustomerSpecificationsBuilder with(
             String key, String operation, Object value, String prefix, String suffix) {
 
         SearchOperation op = SearchOperation.getSimpleOperation(operation.charAt(0));
         if (op != null) {
-
-            this.params = new ArrayList<>();
 
             if (op == SearchOperation.EQUALITY) {
                 boolean startWithAsterisk = prefix.contains("*");
@@ -43,17 +41,17 @@ public class CompanySpecificationsBuilder {
         return this;
     }
 
-    public Specification<Company> build() {
+    public Specification<Customer> build() {
         if (params.size() == 0) {
             return null;
         }
 
-        List<Specification<Company>> specs = new ArrayList<>();
+        List<Specification<Customer>> specs = new ArrayList<>();
         for (SearchCriteria param : params) {
-            specs.add(new CompanySpecification(param));
+            specs.add(new CustomerSpecification(param));
         }
 
-        Specification<Company> result = specs.get(0);
+        Specification<Customer> result = specs.get(0);
         for (int i = 1; i < specs.size(); i++) {
             result = Specification.where(result).and(specs.get(i));
         }
