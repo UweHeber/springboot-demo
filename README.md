@@ -1,8 +1,8 @@
 # Spring Boot 2.0 Demo 
-_An attempt to connect a database to a REST interface via JPA , where paging, sorting and HyperMedia are taken into account_
+_This demo is an attempt to connect a database via JPA to a REST interface - Condition here to support paging, sorting and HyperMedia_
 
 ## Database
-For the example, the internal H2 database is used, which generates two tables including associated data when the application is started:
+For this demo the internal H2 database is used, which generates two tables including associated data when the application is started:
 
     # Table 'CUSTOMER'
     --------------------
@@ -31,28 +31,29 @@ To ensure access to the two JPA repository, two REST controllers have been imple
 1. `http://localhost:8080/api/customers`
 2. `http://localhost:8080/api/companies`
 
-Both controllers use `PagedResources`, with which you can scroll elegantly between the individual result sets (pages). 
+Both controllers using `PagedResources` with which you can scroll elegantly between the individual result sets (pages). 
 This in combination with the `PagedResourcesAssembler` enables the controller to support HyperMedia.
 
-So, the result contains always all required information about first, previous, current, next or last page.
+So, the result contains always all required information about `first`, `previous`, `current`, `next` or `last` page.
 
-To support filtering by certain fields of an entity, a specific `specification` is assembled in each controller, which is transferred to the backend. This can differ from case to case. 
+To support the filtering by certain fields of an entity, a specific `specification` is assembled in each controller, 
+which is passed to the backend logic. This can differ from case to case. 
 
 ## Installation and Setup
 
 Following steps are required to install the plugin:
 
-1. Clone this repository to your developer workspace instance as mutation-test project:
+1. Clone this repository to your developer workspace instance:
 
     `$ git clone https://github.com/UweHeber/springboot-demo`
 
 2. Run following Maven command within your developer workspace 
 
-    `mvn clean install`
+    `$ mvn clean install`
 
 3. Start application via shell command within your developer workspace 
 
-    `java -Dfile.encoding=UTF-8 -jar target\springboot-demo-0.0.1-SNAPSHOT.jar`
+    `$ java -Dfile.encoding=UTF-8 -jar target\springboot-demo-0.0.1-SNAPSHOT.jar`
 
 ## Usage
 
