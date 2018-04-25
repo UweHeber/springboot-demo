@@ -8,12 +8,64 @@
     <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css">
 </head>
 <body>
-    <p>Get your greeting <a href="/greeting">here</a></p>
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="/webjars/jquery/jquery.min.js" ></script>
-    <script src="/webjars/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="/webjars/bootstrap/js/bootstrap.min.js" ></script>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="#">Spring Boot meets Bootstrap</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link customers" href="javascript:void(0);">Customers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link companies" href="javascript:void(0);">Companies</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Page Content -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+           <pre class="result" style="margin-top: 4rem !important;"></pre>
+        </div>
+    </div>
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="/webjars/jquery/jquery.min.js"></script>
+<script src="/webjars/popper.js/popper.min.js"></script>
+<script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+
+<script>
+    $( "a.nav-link" ).click(function() {
+        getCustomers();
+        //alert( "Handler for customer.click() called." );
+    });
+
+    function getCustomers() {
+        $.get( "/api/customers", function( data ) {
+            //console.log(data);
+            $( ".result" ).html( JSON.stringify(data) );
+            alert( "Load was performed." );
+        });
+    }
+
+
+</script>
 </body>
 </html>
