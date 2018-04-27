@@ -7,6 +7,11 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css">
 </head>
+<style>
+    h3.result.title::first-letter {
+        text-transform: uppercase;
+    }
+</style>
 <body>
 
 
@@ -26,10 +31,10 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link customers" href="javascript:void(0);">Customers</a>
+                    <a class="nav-link" id="customers" href="javascript:void(0);">Customers</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link companies" href="javascript:void(0);">Companies</a>
+                    <a class="nav-link" id="companies" href="javascript:void(0);">Companies</a>
                 </li>
             </ul>
         </div>
@@ -40,7 +45,8 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
-           <pre class="result" style="margin-top: 4rem !important;"></pre>
+            <h3 class="result title" style="margin-top: 4rem !important;"></h3>
+           <pre class="result data"></pre>
         </div>
     </div>
 </div>
@@ -48,24 +54,22 @@
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="/webjars/jquery/jquery.min.js"></script>
-<script src="/webjars/popper.js/popper.min.js"></script>
+<script type="module" src="/webjars/popper.js/popper.min.js"></script>
 <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 
 <script>
     $( "a.nav-link" ).click(function() {
-        getCustomers();
-        //alert( "Handler for customer.click() called." );
+        showResource($(this).attr('id'));
     });
 
-    function getCustomers() {
-        $.get( "/api/customers", function( data ) {
-            //console.log(data);
-            $( ".result" ).html( JSON.stringify(data) );
-            alert( "Load was performed." );
+    function showResource(resourceId) {
+        var url = "/api/" + resourceId + "?page=0&size=5";
+        $.get( url, function( data ) {
+            $( ".result.title" ).html(resourceId);
+            $( ".result.data" ).text(JSON.stringify(data, undefined, 2));
+            console.log( "Load was performed." );
         });
     }
-
-
 </script>
 </body>
 </html>
