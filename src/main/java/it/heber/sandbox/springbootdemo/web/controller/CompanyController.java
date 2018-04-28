@@ -4,6 +4,7 @@ import it.heber.sandbox.springbootdemo.persistence.dao.CompanyRepository;
 import it.heber.sandbox.springbootdemo.persistence.dao.CompanySpecificationsBuilder;
 import it.heber.sandbox.springbootdemo.persistence.model.Company;
 import it.heber.sandbox.springbootdemo.web.util.SearchOperation;
+import it.heber.sandbox.springbootdemo.web.util.SimpleResourceAssembler;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -37,12 +38,12 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 public class CompanyController {
 
     private final CompanyRepository companies;
-    private final ResourceAssembler<Company, Resource<Company>> companyResourceAssembler;
+    private final SimpleResourceAssembler<Company> resourceAssembler;
 
     @Autowired
-    public CompanyController(CompanyRepository companies, ResourceAssembler<Company, Resource<Company>> customerResourceAssembler) {
+    public CompanyController(CompanyRepository companies) {
         this.companies = companies;
-        this.companyResourceAssembler = customerResourceAssembler;
+        this.resourceAssembler = new SimpleResourceAssembler<>(this.getClass());
     }
 
 
@@ -72,15 +73,11 @@ public class CompanyController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaTypes.HAL_JSON_VALUE)
-    HttpEntity<Resource<Company>> showCompany(@PathVariable long id, CompanyResourceAssembler resourceAssembler) {
+    HttpEntity<Resource<Company>> showCompany(@PathVariable long id) {
 
-        return Optional.of(this.companies.findById(id))
-                .map(company -> new ResponseEntity<>(resourceAssembler.toResource(company.get()), HttpStatus.OK))
+        return companies.findById(id)
+                .map(company -> new ResponseEntity<>(resourceAssembler.toResource(company), HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 
-//        return companies.findById(id)
-//                .map(company -> new Resource<>(company, linkTo(CustomerController.class).slash(company.getId()).withSelfRel()))
-//                .map(ResponseEntity::ok)
-//                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }
