@@ -1,5 +1,6 @@
 package it.heber.sandbox.springbootdemo.web.controller;
 
+import it.heber.sandbox.springbootdemo.exception.CompanyNotFoundException;
 import it.heber.sandbox.springbootdemo.persistence.dao.CompanyRepository;
 import it.heber.sandbox.springbootdemo.persistence.dao.CompanySpecificationsBuilder;
 import it.heber.sandbox.springbootdemo.persistence.model.Company;
@@ -77,7 +78,7 @@ public class CompanyController {
 
         return companies.findById(id)
                 .map(company -> new ResponseEntity<>(resourceAssembler.toResource(company), HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new CompanyNotFoundException(id));
 
     }
 }
