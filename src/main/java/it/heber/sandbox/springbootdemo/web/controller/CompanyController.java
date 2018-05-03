@@ -1,6 +1,6 @@
 package it.heber.sandbox.springbootdemo.web.controller;
 
-import it.heber.sandbox.springbootdemo.exception.CompanyNotFoundException;
+import it.heber.sandbox.springbootdemo.exception.ResourceNotFoundException;
 import it.heber.sandbox.springbootdemo.persistence.dao.CompanyRepository;
 import it.heber.sandbox.springbootdemo.persistence.dao.CompanySpecificationsBuilder;
 import it.heber.sandbox.springbootdemo.persistence.model.Company;
@@ -10,23 +10,18 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.rest.webmvc.PersistentEntityResourceAssembler;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.hateoas.Resource;
-import org.springframework.hateoas.ResourceAssembler;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 /**
  * REST controller to provide an API for companies access including Hypermedia support for Pageables
@@ -78,7 +73,7 @@ public class CompanyController {
 
         return companies.findById(id)
                 .map(company -> new ResponseEntity<>(resourceAssembler.toResource(company), HttpStatus.OK))
-                .orElseThrow(() -> new CompanyNotFoundException(id));
+                .orElseThrow(() -> new ResourceNotFoundException(this.getClass(), id));
 
     }
 }
