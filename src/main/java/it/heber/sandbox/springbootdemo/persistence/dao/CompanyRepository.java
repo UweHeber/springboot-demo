@@ -1,6 +1,7 @@
 package it.heber.sandbox.springbootdemo.persistence.dao;
 
 import it.heber.sandbox.springbootdemo.persistence.model.Company;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,7 +15,7 @@ import org.springframework.data.rest.core.annotation.RestResource;
  * @author Uwe Heber <uwe@heber.it>
  * @since 1.0
  */
-public interface CompanyRepository extends JpaRepository<Company, Integer>, JpaSpecificationExecutor<Company> {
+public interface CompanyRepository extends JpaRepository<Company, Long>, JpaSpecificationExecutor<Company> {
 
     /**
      * fetch all companies, based on the pagination info
@@ -25,4 +26,7 @@ public interface CompanyRepository extends JpaRepository<Company, Integer>, JpaS
      */
     @RestResource
     Page<Company> findAll(Pageable pageable);
+
+    @RestResource
+    Company findById(Id customerId);
 }

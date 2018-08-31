@@ -1,6 +1,9 @@
 package it.heber.sandbox.springbootdemo.persistence.model;
 
 import lombok.Data;
+import org.springframework.hateoas.Identifiable;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.ResourceSupport;
 
 import javax.persistence.*;
 
@@ -12,7 +15,7 @@ import javax.persistence.*;
  */
 @Data
 @Entity
-public class Company {
+public class Company implements Identifiable<Long> {
 
     @Id
     @SequenceGenerator(name = "company_generator", sequenceName = "company_sequence", initialValue = 1000, allocationSize = 1)

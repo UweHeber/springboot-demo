@@ -1,6 +1,5 @@
 package it.heber.sandbox.springbootdemo.persistence.dao;
 
-import it.heber.sandbox.springbootdemo.persistence.model.Company;
 import it.heber.sandbox.springbootdemo.persistence.model.Customer;
 import it.heber.sandbox.springbootdemo.web.util.SearchCriteria;
 import org.springframework.data.jpa.domain.Specification;

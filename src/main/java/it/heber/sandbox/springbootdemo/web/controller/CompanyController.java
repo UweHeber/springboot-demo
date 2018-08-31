@@ -1,15 +1,19 @@
 package it.heber.sandbox.springbootdemo.web.controller;
 
+import it.heber.sandbox.springbootdemo.exception.ResourceNotFoundException;
 import it.heber.sandbox.springbootdemo.persistence.dao.CompanyRepository;
 import it.heber.sandbox.springbootdemo.persistence.dao.CompanySpecificationsBuilder;
 import it.heber.sandbox.springbootdemo.persistence.model.Company;
 import it.heber.sandbox.springbootdemo.web.util.SearchOperation;
+import it.heber.sandbox.springbootdemo.web.util.SimpleResourceAssembler;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.PagedResources;
+import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -30,10 +34,12 @@ import java.util.regex.Pattern;
 public class CompanyController {
 
     private final CompanyRepository companies;
+    private final SimpleResourceAssembler<Company> resourceAssembler;
 
     @Autowired
     public CompanyController(CompanyRepository companies) {
         this.companies = companies;
+        this.resourceAssembler = new SimpleResourceAssembler<>(this.getClass());
     }
 
 
@@ -60,5 +66,14 @@ public class CompanyController {
 
         Specification<Company> spec = builder.build();
         return new ResponseEntity<>(assembler.toResource(companies.findAll(spec, pageable)), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaTypes.HAL_JSON_VALUE)
+    HttpEntity<Resource<Company>> showCompany(@PathVariable long id) {
+
+        return companies.findById(id)
+                .map(company -> new ResponseEntity<>(resourceAssembler.toResource(company), HttpStatus.OK))
+                .orElseThrow(() -> new ResourceNotFoundException(this.getClass(), id));
+
     }
 }
